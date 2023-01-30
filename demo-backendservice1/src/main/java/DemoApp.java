@@ -1,6 +1,8 @@
 import io.getunleash.DefaultUnleash;
 import io.getunleash.Unleash;
 import io.getunleash.util.UnleashConfig;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import javax.annotation.PreDestroy;
 import javax.ws.rs.GET;
@@ -43,6 +45,9 @@ public class DemoApp {
     @Path("api/message")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Counted(name = "CUSTOM: Messaging service", absolute = true, tags={"purpose=total"})
+    @Operation(summary = "CUSTOM: Main messaging service",
+            description = "Main messaging service, may be slightly unstable at the moment. :-)")
     public Response otherEntryPointWithErrors() {
         String message = "{ \"message\" : \"Hello There!\" }";
 
@@ -71,6 +76,9 @@ public class DemoApp {
     @Path("api/message_backup")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Counted(name = "CUSTOM: Messaging service", absolute = true, tags={"purpose=failover"})
+    @Operation(summary = "Backup messaging service",
+            description = "Backup messaging service. Used as failover if main messaging service fails.")
     public Response otherEntryPoint() {
         String message = "{ \"message\" : \"A BACKUP Hello!\" }";
         return Response.ok(message).build();
@@ -79,6 +87,8 @@ public class DemoApp {
     @Path("feature")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "A feature or a bug service",
+            description = "An essential service used to report new features. Or bugs. It depends.")
     public Response featureToggle() {
         String message = "{ \"message\" : \"BACKEND: IT IS A BUG!\" }";
 

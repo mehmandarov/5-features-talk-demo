@@ -62,6 +62,15 @@ docker compose up -d
 * `demo-service1` will be available at port `9081`, on: http://localhost:9081/hi
 * `demo-backendservice1` will be available at port `9082`, on: http://localhost:9082/hi
 
+Other links:
+* Health Client: http://localhost:9081/health
+* Health Backend: http://localhost:9082/health
+* Metrics Client: http://localhost:9081/metrics
+* Metrics Backend: http://localhost:9082/metrics
+* OpenAPI Client: http://localhost:9081/openapi?format=json
+* OpenAPI Backend: http://localhost:9082/openapi?format=json
+
+
 ### Run each service separately and enable Quarkus dev mode
 Go to the desired service folder and run Quarkus in dev mode:
 ```shell script
