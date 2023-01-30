@@ -1,0 +1,40 @@
+services:
+  wsBackend:
+    image: "com.demo.website:ws-backend"
+    ports:
+      - "9082:8080"
+    hostname: "ws-backend"
+    container_name: "ws-backend"
+    networks:
+      - unleash_default
+    build:
+      context: ./demo-backendservice1
+    links:
+      - "web:unleash_web_1"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  wsClient:
+    image: "com.demo.website:ws-client"
+    ports:
+      - "9081:8080"
+    hostname: "ws-client"
+    container_name: "ws-client"
+    networks:
+      - unleash_default
+    build:
+      context: ./demo-service1
+    links:
+      - "wsBackend:ws-backend"
+      - "unleash_web_1"
+    depends_on:
+      wsBackend:
+        condition: service_healthy
+
+networks:
+  unleash_default:
+    name: unleash_default
+    external: true
