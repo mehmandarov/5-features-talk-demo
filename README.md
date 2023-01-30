@@ -1,6 +1,40 @@
 # My demo app
 This app is used to demo failover and interaction between several webservices, showcasing failover, metrics, health, etc. in Java microservices using Quarkus and Jakarta EE + MicroProfile.
 
+## Architecture
+
+```
+           demo-service1                        demo-backendservice1
+         ┌────────────────┐                  ┌────────────────────────┐
+         │                │                  │                        │
+         │ Service A      │                  │ Service B              │
+         │ =========      │                  │ =========              │
+         │                │                  │                        │
+         │ Endpoints:     │  HTTP            │ Endpoints:             │
+"feature"│ * /hi     ─────┼───────┐          │ * /hi                  │   "feature"
+┌────────┤ * /feature     │       │    ok    │ * /feature      ───────┼────────────┐
+│        │                │       ├──────────► * /api/message  ───────┼────────────┤
+│        │                │       └──────────► * /api/back p_message  │    "chaos" │
+│        │                │            error │                        │            │
+│        │                │  HTTP            │                        │            │
+│        │                ◄──────────────────┤                        │            │
+│        └────────────────┘                  └────────────────────────┘            │
+│                                                                                  │
+│                                                                                  │
+│                             unleash_web_1                                        │
+│                             ┌─────────────┐                                      │
+│                             │             │                                      │
+│                             │ Feature     │                                      │
+└─────────────────────────────► Toggle      ◄──────────────────────────────────────┘
+                              │ Service     │
+                              │ ========    │
+                              │             │
+                              │ Toggles:    │
+                              │ * "feature" │
+                              │ * "chaos"   │
+                              └─────────────┘
+```
+
 ## Build this project
 1. Checkout the code
 2. Run `mvn clean verify` from the root folder
