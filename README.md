@@ -63,7 +63,7 @@ docker compose up -d
 * `demo-backendservice1` will be available at port `9082`, on: http://localhost:9082/hi
 
 Other links:
-* Health Client: http://localhost:9081/health
+* Health Client: http://localhost:9081/health {/ready, /live, /started}
 * Health Backend: http://localhost:9082/health
 * Metrics Client: http://localhost:9081/metrics
 * Metrics Backend: http://localhost:9082/metrics
