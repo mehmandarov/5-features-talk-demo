@@ -1,3 +1,5 @@
+package health;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
@@ -11,7 +13,7 @@ import java.net.Socket;
 
 @Readiness
 @ApplicationScoped
-public class SimpleRedinessHealthCheck implements HealthCheck {
+public class ReadinessHealthCheckSimple implements HealthCheck {
     @Inject
     @ConfigProperty(name = "BACKEND_SERVICE_HOST", defaultValue = "ws-backend")
     private String host;

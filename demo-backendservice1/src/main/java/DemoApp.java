@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URISyntaxException;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @Path("/")
 public class DemoApp {
@@ -48,7 +49,7 @@ public class DemoApp {
     @Counted(name = "CUSTOM: Messaging service", absolute = true, tags={"purpose=total"})
     @Operation(summary = "CUSTOM: Main messaging service",
             description = "Main messaging service, may be slightly unstable at the moment. :-)")
-    public Response otherEntryPointWithErrors() {
+    public Response otherEntryPointWithErrors() throws InterruptedException {
         String message = "{ \"message\" : \"Hello There!\" }";
 
         int roll = 0;
@@ -60,6 +61,10 @@ public class DemoApp {
             if (roll % 2 == 0) { // Fail at random... Roll a dice! :-)
                 success = false;
             }
+        }
+
+        if (unleash.isEnabled("delay")) {
+            TimeUnit.MILLISECONDS.sleep(5000); // Power nap for 5 sec. We all need a break sometimes, right? zzZ
         }
 
         if (success) {

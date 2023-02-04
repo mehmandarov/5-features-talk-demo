@@ -1,3 +1,5 @@
+package health;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
@@ -12,7 +14,9 @@ import java.net.URL;
 
 @Liveness
 @ApplicationScoped
-public class SimpleLivenessHealthCheck implements HealthCheck {
+public class LivenessHealthCheckResponseTime implements HealthCheck {
+
+
     @Inject
     @ConfigProperty(name = "FRONTEND_SERVICE_HOST", defaultValue = "localhost")
     private String host;
@@ -23,17 +27,21 @@ public class SimpleLivenessHealthCheck implements HealthCheck {
     @Inject
     @ConfigProperty(name = "FRONTEND_SERVICE_PATH", defaultValue = "hi")
     private String path;
+
     @Override
     public HealthCheckResponse call() {
-        HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("Liveness: Self health check");
+        HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("Liveness: Self health check: Response time");
 
         try {
-
+            long start = System.currentTimeMillis();
             int responseCode = getServerResponseCode(host, port, path);
-            if (responseCode == 200){
+            long finish = System.currentTimeMillis();
+            long timeElapsed = finish - start;
+
+            if (timeElapsed < 3000) { // Faster than 3 seconds
                 responseBuilder.up();
             } else {
-                responseBuilder.down().withData("error", "Liveness: Critical service has stopped responding.");
+                responseBuilder.down().withData("error", "Liveness: Critical service is too slow.");
             }
 
         } catch (IOException e) {
@@ -45,7 +53,7 @@ public class SimpleLivenessHealthCheck implements HealthCheck {
 
     private int getServerResponseCode(String host, int port, String path) throws IOException {
         URL url = new URL(String.format("http://%s:%s/%s", host, port, path));
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.connect();
 
