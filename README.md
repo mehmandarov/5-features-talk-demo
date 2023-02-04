@@ -15,7 +15,7 @@ This app is used to demo failover and interaction between several webservices, s
 ┌────────┤ * /feature     │       │    ok    │ * /feature      ───────┼────────────┐
 │        │                │       ├──────────► * /api/message  ───────┼────────────┤
 │        │                │       └──────────► * /api/backup_message  │    "chaos" │
-│        │                │            error │                        │            │
+│        │                │            error │                        │    "delay" │
 │        │                │  HTTP            │                        │            │
 │        │                ◄──────────────────┤                        │            │
 │        └────────────────┘                  └────────────────────────┘            │
