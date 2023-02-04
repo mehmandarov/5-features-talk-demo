@@ -30,7 +30,7 @@ public class LivenessHealthCheckResponseTime implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-        HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("Liveness: Self health check: Response time");
+        HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("Liveness: Self health check: Response Time");
 
         try {
             long start = System.currentTimeMillis();
@@ -41,7 +41,7 @@ public class LivenessHealthCheckResponseTime implements HealthCheck {
             if (timeElapsed < 3000) { // Faster than 3 seconds
                 responseBuilder.up();
             } else {
-                responseBuilder.down().withData("error", "Liveness: Critical service is too slow.");
+                responseBuilder.down().withData("error", "Liveness: Critical service /" + path + " is too slow.");
             }
 
         } catch (IOException e) {
