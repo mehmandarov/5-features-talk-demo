@@ -30,14 +30,12 @@ public class LivenessHealthCheckResponseCode implements HealthCheck {
         HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("Liveness: Self health check: HTTP Response Code");
 
         try {
-
             int responseCode = getServerResponseCode(host, port, path);
             if (responseCode == 200){
                 responseBuilder.up();
             } else {
                 responseBuilder.down().withData("error", "Liveness: Critical service has stopped responding.");
             }
-
         } catch (IOException e) {
             responseBuilder.down().withData("error", "Liveness: Critical service has stopped responding.");
         }
