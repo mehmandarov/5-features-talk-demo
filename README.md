@@ -32,6 +32,7 @@ This app is used to demo failover and interaction between several webservices, s
                               │ Toggles:    │
                               │ * "feature" │
                               │ * "chaos"   │
+                              │ * "delay"   │
                               └─────────────┘
 ```
 
@@ -42,11 +43,18 @@ This app is used to demo failover and interaction between several webservices, s
 ## Run this project
 
 ### Running all services in a containers using `compose`
-* _**Prerequisite:**_ Services expect Unleash running on http://unlesh_web_1:4242/api and Unleash Podman/Docker network called `unleash_default`.
+_**Prerequisites:**_
+* Services expect **Unleash running on** http://unleash_web_1:4242/api
+  * backend service URL is [configured here](./demo-backendservice1/src/main/java/DemoApp.java)
+  * client service URL is [configured here](./demo-service1/src/main/java/DemoApp.java) 
+* Unleash Podman/Docker **network** called `unleash_default`
+* Unleash needs to have these **toggles**: `feature`, `chaos`, and `delay`.
+
+_**Running project:**_
 * All services can be run using `Compose`. See below for commands to do so.
 * `Dockerfile`s that are being used for each service can be found in the root folder of that service.
-* Add `--build` option if you want to force image build.
-* Remove `-d` if you don't want to run in daemon mode.
+* Add `--build` option if you want to _force image build_.
+* Remove `-d` if you don't want to run in _daemon mode_.
 
 ##### Run all services using Podman Compose
 ```shell script
@@ -58,17 +66,20 @@ podman-compose up -d
 docker compose up -d 
 ```
 
-#### Default URLs/ports using `Compose`:
+#### Default URLs and ports, when using `Compose`:
 * `demo-service1` will be available at port `9081`, on: http://localhost:9081/hi
 * `demo-backendservice1` will be available at port `9082`, on: http://localhost:9082/hi
 
 Other links:
-* Health Client: http://localhost:9081/health {/ready, /live, /started}
-* Health Backend: http://localhost:9082/health
-* Metrics Client: http://localhost:9081/metrics
-* Metrics Backend: http://localhost:9082/metrics
-* OpenAPI Client: http://localhost:9081/openapi?format=json
-* OpenAPI Backend: http://localhost:9082/openapi?format=json
+* Health:
+  * Client: http://localhost:9081/health {/ready, /live, /started}
+  * Backend: http://localhost:9082/health
+* Metrics:
+  * Client: http://localhost:9081/metrics
+  * Backend: http://localhost:9082/metrics
+* OpenAPI:
+  * Client: http://localhost:9081/openapi?format=json
+  * Backend: http://localhost:9082/openapi?format=json
 
 
 ### Run each service separately and enable Quarkus dev mode
