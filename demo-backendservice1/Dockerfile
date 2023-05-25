@@ -77,7 +77,7 @@
 ###
 
 # Step 1: Build the code using regular maven
-FROM maven:3.9.1-eclipse-temurin-17 as maven
+FROM maven:3.9.2-eclipse-temurin-17 as maven
 COPY pom.xml /home/app/
 WORKDIR /home/app
 RUN mvn verify -B --fail-never
