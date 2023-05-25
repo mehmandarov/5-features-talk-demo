@@ -39,7 +39,7 @@ public class DemoApp {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String entryPoint() throws URISyntaxException {
-        String message = "{ \"message\" : \"Hello There from BACKEND!\" }";
+        String message = "Hai there! Nothing to see here. I am the backend service.";
         return message;
     }
 
