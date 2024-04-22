@@ -1,3 +1,8 @@
+networks:
+  unleash_default:
+    name: unleash_default
+    external: true
+
 services:
   wsBackend:
     image: "com.demo.website:ws-backend"
@@ -9,7 +14,7 @@ services:
       - unleash_default
     build:
       context: ./demo-backendservice1
-    links:
+    external_links:
       - "web:unleash_web_1"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
@@ -29,12 +34,8 @@ services:
       context: ./demo-service1
     links:
       - "wsBackend:ws-backend"
-      - "unleash_web_1"
+    external_links:
+      - "web:unleash_web_1"
     depends_on:
       wsBackend:
         condition: service_healthy
-
-networks:
-  unleash_default:
-    name: unleash_default
-    external: true

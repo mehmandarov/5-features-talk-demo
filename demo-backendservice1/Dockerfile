@@ -77,7 +77,7 @@
 ###
 
 # Step 1: Build the code using regular maven
-FROM maven:3.9.5-eclipse-temurin-21 as maven
+FROM maven:3.9.6-eclipse-temurin-21 as maven
 COPY pom.xml /home/app/
 WORKDIR /home/app
 RUN mvn verify -B --fail-never
@@ -86,7 +86,7 @@ RUN mvn package
 
 
 # Step 2: Get the app up and running
-FROM registry.access.redhat.com/ubi8/openjdk-21:1.18-3
+FROM registry.access.redhat.com/ubi8/openjdk-21:1.19
 
 ENV LANGUAGE='en_US:en'
 
